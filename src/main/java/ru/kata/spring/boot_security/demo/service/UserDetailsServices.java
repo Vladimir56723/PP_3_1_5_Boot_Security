@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
+import ru.kata.spring.boot_security.demo.repositories.TestSaveUserAndAdmin;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.security.MyUserDetails;
 
@@ -24,6 +25,7 @@ public class UserDetailsServices implements UserDetailService {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
+
     public UserDetailsServices(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -32,14 +34,12 @@ public class UserDetailsServices implements UserDetailService {
     @Transactional
     @Override
     public void update(User user, Long id) {
-        // User user1 = userRepository.getById(id);
         User user1 = entityManager.find(User.class, id);
         user1.setUsername(user.getUsername());
         user1.setPassword(user.getPassword());
         user1.setLastname(user.getLastname());
         user1.setEmail(user.getEmail());
         user1.setRoles(user.getRoles());
-        //userRepository.save(user1);
         entityManager.merge(user1);
     }
 
@@ -58,6 +58,7 @@ public class UserDetailsServices implements UserDetailService {
         }
 
     }
+
 
     @Override
     @Transactional
