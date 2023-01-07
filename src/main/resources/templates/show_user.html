@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <meta charset="UTF-8">
+    <title>Show</title>
+</head>
+<body>
+<p>Username: <span th:text="${user.username}"></span></p>
+<p>Password: <span th:text="${user.password}"></span></p>
+<p>Email: <span th:text="${user.email}"></span></p>
+<p>Lastname: <span th:text="${user.lastname}"></span></p>
+
+
+<br>
+<a href="/admin">Home Admin</a>
+
+
+<br>
+<a href="/logout">Logout</a>
+
+
+</body>
+</html>
