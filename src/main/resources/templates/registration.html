@@ -6,11 +6,11 @@
     <title></title>
 </head>
 <body>
-<form th:method="post" th:action="@{/admin/all}" th:object="${user}">
+<form th:method="post" th:action="@{/registration}" th:object="${user}">
     <label for="n">Enter name: </label>
     <input id="n" type="text" th:field="*{username}">
     <br>
-    <label for="p">Enter lastname: </label>
+    <label for="p">Enter password: </label>
     <input id="p" type="text" th:field="*{password}">
     <br>
     <label for="f">Enter lastname: </label>
@@ -19,16 +19,12 @@
     <label for="e">Enter Email: </label>
     <input id="e" type="text" th:field="*{email}">
     <br>
-
     <th:block th:each="role: ${all_role}">
         <input type="checkbox" th:field="*{roles}"
                th:text="${role.name}" th:value="${role.id}" class="m-2"/>
     </th:block>
-
-
     <br>
-    <input type="submit" value="Add">
-
+    <input type="submit" value="OK">
 </form>
 </body>
 </html>

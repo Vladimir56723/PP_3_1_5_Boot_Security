@@ -1,10 +1,13 @@
 package ru.kata.spring.boot_security.demo.controller;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import ru.kata.spring.boot_security.demo.model.User;
+import ru.kata.spring.boot_security.demo.security.MyUserDetails;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServices;
+
 
 @RequestMapping("/admin")
 @Controller
@@ -16,40 +19,30 @@ public class AdminController {
     }
 
     @GetMapping("/all")
-    public String userList(Model model) {
+    public String userList(@AuthenticationPrincipal MyUserDetails user, Model model) {
+        model.addAttribute("user", user);
         model.addAttribute("allUsers", userDetailsServices.allUsers());
-        // model.addAttribute("all_role", userDetailsServices.getRoles());
+        model.addAttribute("all_role", userDetailsServices.getRoles());
         return "admin_all";
     }
 
     @GetMapping("/new")
-    public String newUser(@ModelAttribute("user") User user, Model model) {
+    public String newUser(@AuthenticationPrincipal MyUserDetails user, Model model) {
+        model.addAttribute("user", user);
+        model.addAttribute("allUsers", userDetailsServices.allUsers());
         model.addAttribute("all_role", userDetailsServices.getRoles());
-        return "new_admin";
+        model.addAttribute("user1", new User());
+        return "newAdmin12";
     }
 
-    @PostMapping("/all")
+    @PostMapping("all12")
     public String create(@ModelAttribute("user") User user) {
         userDetailsServices.save(user);
         return "redirect:/admin/all";
     }
 
-    @GetMapping("/all/{id}")
-    public String show(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userDetailsServices.get(id));
-
-        return "show_user";
-    }
-
-    @GetMapping("/all/{id}/edit")
-    public String edit(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("user", userDetailsServices.get(id));
-        model.addAttribute("all_role", userDetailsServices.getRoles());
-        return "admin_update";
-    }
-
-    @PatchMapping("/all/{id}")
-    public String update(@ModelAttribute("user") User user, @PathVariable("id") Long id) {
+    @PatchMapping(value = "/all/edit/{id}")
+    public String update(@ModelAttribute User user, @PathVariable("id") Long id) {
         userDetailsServices.update(user, id);
         return "redirect:/admin/all";
     }

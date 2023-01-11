@@ -2,9 +2,11 @@ package ru.kata.spring.boot_security.demo.security;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
 import java.util.Collection;
+import java.util.Set;
 
 public class MyUserDetails implements UserDetails {
     private final User user;
@@ -17,6 +19,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
+
         return this.user.getRoles();
     }
 
@@ -58,8 +61,21 @@ public class MyUserDetails implements UserDetails {
         return this.user.getEmail();
     }
 
+
     public String getLastname() {
         return this.user.getLastname();
+    }
+
+    public Integer getAge() {
+        return this.user.getAge();
+    }
+
+    public Set<Role> getRoles() {
+        return this.user.getRoles();
+    }
+
+    public Long getId() {
+        return this.user.getId();
     }
 
 

@@ -1,6 +1,7 @@
 package ru.kata.spring.boot_security.demo.service;
 
 import org.hibernate.Hibernate;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -8,9 +9,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.repositories.RoleRepository;
-import ru.kata.spring.boot_security.demo.repositories.TestSaveUserAndAdmin;
 import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 import ru.kata.spring.boot_security.demo.security.MyUserDetails;
+import ru.kata.spring.boot_security.demo.security.Registration;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -20,13 +21,16 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServices implements UserDetailService {
+
+    private final Registration registration;
     @PersistenceContext
     private EntityManager entityManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
 
-    public UserDetailsServices(UserRepository userRepository, RoleRepository roleRepository) {
+    public UserDetailsServices(@Lazy Registration registration, UserRepository userRepository, RoleRepository roleRepository) {
+        this.registration = registration;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
     }
@@ -38,6 +42,7 @@ public class UserDetailsServices implements UserDetailService {
         user1.setUsername(user.getUsername());
         user1.setPassword(user.getPassword());
         user1.setLastname(user.getLastname());
+        user1.setAge(user.getAge());
         user1.setEmail(user.getEmail());
         user1.setRoles(user.getRoles());
         entityManager.merge(user1);
@@ -63,7 +68,7 @@ public class UserDetailsServices implements UserDetailService {
     @Override
     @Transactional
     public void save(User user) {
-        userRepository.save(user);
+        registration.register(user);
     }
 
     public List<Role> getRoles() {
@@ -73,7 +78,7 @@ public class UserDetailsServices implements UserDetailService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(s).orElseThrow(() -> new UsernameNotFoundException("Username not found"));
+        User user = userRepository.findByUsername(s);
         Set<Role> roleSet = user.getRoles();
         Hibernate.initialize(roleSet);
         return new MyUserDetails(user);
@@ -84,5 +89,6 @@ public class UserDetailsServices implements UserDetailService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
+
 
 }

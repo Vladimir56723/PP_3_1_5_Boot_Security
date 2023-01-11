@@ -1,12 +1,8 @@
 package ru.kata.spring.boot_security.demo.model;
 
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
-import java.util.Collection;
 import java.util.Set;
+
 
 @Entity
 @Table(name = "users")
@@ -22,6 +18,9 @@ public class User {
     private String username;
     @Column(name = "lastname")
     private String lastname;
+    @Column(name = "age")
+    private Integer age;
+
     @Column(name = "email")
     private String email;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -36,18 +35,21 @@ public class User {
 
     }
 
-    public User(String password, String username, String lastname, String email, Set<Role> roles) {
+    public User(String password, String username, String lastname, Integer age, String email, Set<Role> roles) {
+
         this.password = password;
         this.username = username;
         this.lastname = lastname;
+        this.age = age;
         this.email = email;
         this.roles = roles;
     }
 
-    public User(String password, String username, String lastname, String email) {
+    public User(String password, String username, String lastname, Integer age, String email) {
         this.password = password;
         this.username = username;
         this.lastname = lastname;
+        this.age = age;
         this.email = email;
     }
 
@@ -84,6 +86,15 @@ public class User {
         this.lastname = lastname;
     }
 
+
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -100,5 +111,16 @@ public class User {
         this.roles = roles;
     }
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", email='" + email + '\'' +
+                ", roles=" + roles +
+                '}';
+    }
 
 }

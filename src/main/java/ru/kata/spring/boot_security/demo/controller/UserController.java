@@ -16,9 +16,15 @@ public class UserController {
         this.userDetailsServices = userDetailsServices;
     }
 
+    @GetMapping("/user/12")
+    public String show12(@AuthenticationPrincipal MyUserDetails user, Model model) {
+        model.addAttribute("user", user);
+        return "show12";
+    }
+
     @GetMapping("/user")
     public String show(@AuthenticationPrincipal MyUserDetails user, Model model) {
         model.addAttribute("user", user);
-        return "show_user";
+        return "show";
     }
 }

@@ -21,4 +21,5 @@ public interface UserDetailService extends UserDetailsService {
     List<Role> getRoles();
 
     void delete(Long id);
+
 }
