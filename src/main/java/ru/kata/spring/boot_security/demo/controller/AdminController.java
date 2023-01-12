@@ -8,7 +8,6 @@ import ru.kata.spring.boot_security.demo.model.User;
 import ru.kata.spring.boot_security.demo.security.MyUserDetails;
 import ru.kata.spring.boot_security.demo.service.UserDetailsServices;
 
-
 @RequestMapping("/admin")
 @Controller
 public class AdminController {
@@ -24,6 +23,12 @@ public class AdminController {
         model.addAttribute("allUsers", userDetailsServices.allUsers());
         model.addAttribute("all_role", userDetailsServices.getRoles());
         return "admin_all";
+    }
+
+    @GetMapping("all/user/12")
+    public String show12(@AuthenticationPrincipal MyUserDetails user, Model model) {
+        model.addAttribute("user", user);
+        return "show12";
     }
 
     @GetMapping("/new")
@@ -52,5 +57,4 @@ public class AdminController {
         userDetailsServices.delete(id);
         return "redirect:/admin/all";
     }
-
 }

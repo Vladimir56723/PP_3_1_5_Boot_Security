@@ -1,13 +1,12 @@
 package ru.kata.spring.boot_security.demo.model;
 
 import javax.persistence.*;
+import java.util.Objects;
 import java.util.Set;
-
 
 @Entity
 @Table(name = "users")
 public class User {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -20,7 +19,6 @@ public class User {
     private String lastname;
     @Column(name = "age")
     private Integer age;
-
     @Column(name = "email")
     private String email;
     @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
@@ -32,11 +30,9 @@ public class User {
     private Set<Role> roles;
 
     public User() {
-
     }
 
     public User(String password, String username, String lastname, Integer age, String email, Set<Role> roles) {
-
         this.password = password;
         this.username = username;
         this.lastname = lastname;
@@ -52,7 +48,6 @@ public class User {
         this.age = age;
         this.email = email;
     }
-
 
     public Long getId() {
         return id;
@@ -85,7 +80,6 @@ public class User {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-
 
     public Integer getAge() {
         return age;
@@ -123,4 +117,27 @@ public class User {
                 '}';
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        if (!Objects.equals(id, user.id)) return false;
+        if (!Objects.equals(username, user.username)) return false;
+        if (!Objects.equals(lastname, user.lastname)) return false;
+        if (!Objects.equals(age, user.age)) return false;
+        if (!Objects.equals(password, user.password)) return false;
+        return Objects.equals(roles, user.roles);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = id != null ? id.hashCode() : 0;
+        hash = 13 * hash + (username != null ? username.hashCode() : 0);
+        hash = 13 * hash + (lastname != null ? lastname.hashCode() : 0);
+        hash = 13 * hash + (age != null ? age.hashCode() : 0);
+        hash = 13 * hash + (password != null ? password.hashCode() : 0);
+        hash = 13 * hash + (roles != null ? roles.hashCode() : 0);
+        return hash;
+    }
 }

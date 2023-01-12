@@ -11,15 +11,12 @@ import java.util.Set;
 public class MyUserDetails implements UserDetails {
     private final User user;
 
-
     public MyUserDetails(User user) {
         this.user = user;
-
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
         return this.user.getRoles();
     }
 
@@ -61,7 +58,6 @@ public class MyUserDetails implements UserDetails {
         return this.user.getEmail();
     }
 
-
     public String getLastname() {
         return this.user.getLastname();
     }
@@ -77,6 +73,4 @@ public class MyUserDetails implements UserDetails {
     public Long getId() {
         return this.user.getId();
     }
-
-
 }

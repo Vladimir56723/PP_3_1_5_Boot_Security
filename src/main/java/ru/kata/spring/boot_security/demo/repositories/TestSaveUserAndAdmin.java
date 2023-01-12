@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 import ru.kata.spring.boot_security.demo.model.Role;
 import ru.kata.spring.boot_security.demo.model.User;
 
-
 import javax.annotation.PostConstruct;
 import java.util.HashSet;
 import java.util.Set;
@@ -68,9 +67,5 @@ public class TestSaveUserAndAdmin {
         user3.setId(3L);
         user3.setRoles(role_all);
         userRepository.save(user3);
-
-
     }
-
-
 }

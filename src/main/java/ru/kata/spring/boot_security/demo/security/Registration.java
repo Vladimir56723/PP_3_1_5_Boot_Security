@@ -8,16 +8,16 @@ import ru.kata.spring.boot_security.demo.repositories.UserRepository;
 
 @Service
 public class Registration {
-private final UserRepository userRepository;
-private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
     public Registration(UserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
-
     @Transactional
-    public void register(User user){
+    public void register(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
     }

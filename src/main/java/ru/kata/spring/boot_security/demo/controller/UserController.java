@@ -9,17 +9,10 @@ import ru.kata.spring.boot_security.demo.service.UserDetailsServices;
 
 @Controller
 public class UserController {
-
     public final UserDetailsServices userDetailsServices;
 
     public UserController(UserDetailsServices userDetailsServices) {
         this.userDetailsServices = userDetailsServices;
-    }
-
-    @GetMapping("/user/12")
-    public String show12(@AuthenticationPrincipal MyUserDetails user, Model model) {
-        model.addAttribute("user", user);
-        return "show12";
     }
 
     @GetMapping("/user")

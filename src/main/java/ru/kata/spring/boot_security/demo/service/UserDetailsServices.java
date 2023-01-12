@@ -21,13 +21,11 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServices implements UserDetailService {
-
     private final Registration registration;
     @PersistenceContext
     private EntityManager entityManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
-
 
     public UserDetailsServices(@Lazy Registration registration, UserRepository userRepository, RoleRepository roleRepository) {
         this.registration = registration;
@@ -61,9 +59,7 @@ public class UserDetailsServices implements UserDetailService {
         } else {
             throw new UsernameNotFoundException("User not found id");
         }
-
     }
-
 
     @Override
     @Transactional
@@ -76,7 +72,6 @@ public class UserDetailsServices implements UserDetailService {
     }
 
     @Override
-    @Transactional
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(s);
         Set<Role> roleSet = user.getRoles();
@@ -89,6 +84,4 @@ public class UserDetailsServices implements UserDetailService {
     public void delete(Long id) {
         userRepository.deleteById(id);
     }
-
-
 }
