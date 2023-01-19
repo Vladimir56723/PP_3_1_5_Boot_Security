@@ -27,7 +27,7 @@ public class MyUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.user.getUsername();
+        return this.user.getEmail();
     }
 
     @Override
@@ -72,5 +72,9 @@ public class MyUserDetails implements UserDetails {
 
     public Long getId() {
         return this.user.getId();
+    }
+
+    public String getFirstname() {
+        return this.user.getFirstname();
     }
 }

@@ -25,13 +25,13 @@ public class TestSaveUserAndAdmin {
 
     @PostConstruct
     public void add() {
-        Role role2 = new Role(1L, "ROLE_ADMIN");
+        Role role2 = new Role( "ROLE_ADMIN");
         roleRepository.save(role2);
         Set<Role> role_ad = new HashSet<>();
         role_ad.add(role2);
         //role_ad.add(role2);
         User user1 = new User();
-        user1.setUsername("admin");
+        user1.setFirstname("admin");
         user1.setPassword(passwordEncoder.encode("admin"));
         user1.setLastname("lastAdmin");
         user1.setAge(50);
@@ -40,12 +40,12 @@ public class TestSaveUserAndAdmin {
         user1.setRoles(role_ad);
         userRepository.save(user1);
 
-        Role role1 = new Role(2L, "ROLE_USER");
+        Role role1 = new Role( "ROLE_USER");
         roleRepository.save(role1);
         Set<Role> role_ad2 = new HashSet<>();
         role_ad2.add(role1);
         User user = new User();
-        user.setUsername("user");
+        user.setFirstname("user");
         user.setPassword(passwordEncoder.encode("user"));
         user.setLastname("LastUser");
         user.setAge(55);
@@ -54,12 +54,11 @@ public class TestSaveUserAndAdmin {
         user.setRoles(role_ad2);
         userRepository.save(user);
 
-
         Set<Role> role_all = new HashSet<>();
         role_all.add(role2);
         role_all.add(role1);
         User user3 = new User();
-        user3.setUsername("u");
+        user3.setFirstname("u");
         user3.setPassword(passwordEncoder.encode("u"));
         user3.setLastname("Lu");
         user3.setAge(60);

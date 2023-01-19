@@ -11,17 +11,17 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Long id;
-    @Column(name = "password1")
+    @Column(name = "password")
     private String password;
-    @Column(name = "username")
-    private String username;
+    @Column(name = "firstname")
+    private String firstname;
     @Column(name = "lastname")
     private String lastname;
     @Column(name = "age")
     private Integer age;
     @Column(name = "email")
     private String email;
-    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -32,18 +32,18 @@ public class User {
     public User() {
     }
 
-    public User(String password, String username, String lastname, Integer age, String email, Set<Role> roles) {
+    public User(String password, String firstname, String lastname, Integer age, String email, Set<Role> roles) {
         this.password = password;
-        this.username = username;
+        this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
         this.email = email;
         this.roles = roles;
     }
 
-    public User(String password, String username, String lastname, Integer age, String email) {
+    public User(String password, String firstname, String lastname, Integer age, String email) {
         this.password = password;
-        this.username = username;
+        this.firstname = firstname;
         this.lastname = lastname;
         this.age = age;
         this.email = email;
@@ -65,12 +65,12 @@ public class User {
         this.password = password;
     }
 
-    public String getUsername() {
-        return username;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setFirstname(String username) {
+        this.firstname = username;
     }
 
     public String getLastname() {
@@ -110,7 +110,7 @@ public class User {
         return "User{" +
                 "id=" + id +
                 ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
+                ", username='" + firstname + '\'' +
                 ", lastname='" + lastname + '\'' +
                 ", email='" + email + '\'' +
                 ", roles=" + roles +
@@ -123,7 +123,7 @@ public class User {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
         if (!Objects.equals(id, user.id)) return false;
-        if (!Objects.equals(username, user.username)) return false;
+        if (!Objects.equals(firstname, user.firstname)) return false;
         if (!Objects.equals(lastname, user.lastname)) return false;
         if (!Objects.equals(age, user.age)) return false;
         if (!Objects.equals(password, user.password)) return false;
@@ -133,7 +133,7 @@ public class User {
     @Override
     public int hashCode() {
         int hash = id != null ? id.hashCode() : 0;
-        hash = 13 * hash + (username != null ? username.hashCode() : 0);
+        hash = 13 * hash + (firstname != null ? firstname.hashCode() : 0);
         hash = 13 * hash + (lastname != null ? lastname.hashCode() : 0);
         hash = 13 * hash + (age != null ? age.hashCode() : 0);
         hash = 13 * hash + (password != null ? password.hashCode() : 0);

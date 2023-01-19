@@ -4,6 +4,7 @@ import org.hibernate.Hibernate;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.kata.spring.boot_security.demo.model.Role;
@@ -21,13 +22,15 @@ import java.util.Set;
 
 @Service
 public class UserDetailsServices implements UserDetailService {
+    private final PasswordEncoder passwordEncoder;
     private final Registration registration;
     @PersistenceContext
     private EntityManager entityManager;
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
 
-    public UserDetailsServices(@Lazy Registration registration, UserRepository userRepository, RoleRepository roleRepository) {
+    public UserDetailsServices(@Lazy PasswordEncoder passwordEncoder, @Lazy Registration registration, UserRepository userRepository, RoleRepository roleRepository) {
+        this.passwordEncoder = passwordEncoder;
         this.registration = registration;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
@@ -37,8 +40,8 @@ public class UserDetailsServices implements UserDetailService {
     @Override
     public void update(User user, Long id) {
         User user1 = entityManager.find(User.class, id);
-        user1.setUsername(user.getUsername());
-        user1.setPassword(user.getPassword());
+        user1.setFirstname(user.getFirstname());
+        user1.setPassword(passwordEncoder.encode(user.getPassword()));
         user1.setLastname(user.getLastname());
         user1.setAge(user.getAge());
         user1.setEmail(user.getEmail());
@@ -72,8 +75,8 @@ public class UserDetailsServices implements UserDetailService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        User user = userRepository.findByUsername(s);
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
         Set<Role> roleSet = user.getRoles();
         Hibernate.initialize(roleSet);
         return new MyUserDetails(user);
